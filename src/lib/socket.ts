@@ -35,16 +35,16 @@ class SocketService {
 
         // Leave previous room if any
         if (this.currentRoom && this.currentRoom !== scanId) {
-            this.socket?.emit('leaveScan', this.currentRoom);
+            this.socket?.emit('unsubscribe', { scanId: this.currentRoom });
         }
 
         this.currentRoom = scanId;
-        this.socket?.emit('joinScan', scanId);
+        this.socket?.emit('subscribe', { scanId });
     }
 
     leaveScan(scanId: string) {
         if (this.socket && this.currentRoom === scanId) {
-            this.socket.emit('leaveScan', scanId);
+            this.socket.emit('unsubscribe', { scanId });
             this.currentRoom = null;
         }
     }
