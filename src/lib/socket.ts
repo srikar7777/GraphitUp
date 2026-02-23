@@ -1,6 +1,12 @@
 import { io, Socket } from 'socket.io-client';
 
-const WS_URL = process.env.NEXT_PUBLIC_WS_URL || 'ws://localhost:3001/scan';
+// If NEXT_PUBLIC_WS_URL is set without a path, append /scan
+const getWsUrl = () => {
+    const baseUrl = process.env.NEXT_PUBLIC_WS_URL || 'ws://localhost:3001';
+    return baseUrl.endsWith('/scan') ? baseUrl : `${baseUrl}/scan`;
+};
+
+const WS_URL = getWsUrl();
 
 class SocketService {
     private socket: Socket | null = null;
